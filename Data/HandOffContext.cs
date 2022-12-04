@@ -10,7 +10,7 @@ namespace HandOffApiCli.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("server=127.0.0.1;uid=root;pwd=Star5820!;database=test");
+            optionsBuilder.UseSqlServer("");
         }
 
         public DbSet<Patient> Patients { get; set; }
