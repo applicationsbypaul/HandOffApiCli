@@ -10,7 +10,7 @@ namespace HandOffApiCli.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("");
+            optionsBuilder.UseSqlServer("Server=localhost;Database=TestDB;Trusted_Connection=True; TrustServerCertificate=True;");
         }
 
         public DbSet<Patient> Patients { get; set; }
