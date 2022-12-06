@@ -14,5 +14,10 @@ namespace HandOffApiCli.Data
         }
 
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Handoff> Handoffs { get; set; }
+        public DbSet<JobDescription> JobDescriptions { get; set; }
+        public DbSet<Visit> Visits { get; set; }
+        public DbSet<WorkGroup> WorkGroups { get; set; }
     }
 }
