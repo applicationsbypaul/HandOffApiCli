@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace HandOffApiCli.Data.Entities
 {
@@ -6,6 +6,6 @@ namespace HandOffApiCli.Data.Entities
     {
         [Key] 
         public int id { get; set; }
-        public indexer wg_employee_id { get; set; }
+        public int wg_employee_id { get; set; }
     }
 }
