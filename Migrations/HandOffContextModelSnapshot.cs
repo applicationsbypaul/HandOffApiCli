@@ -35,7 +35,7 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("employee_job_description")
+                    b.Property<int>("employee_job_descriptionId")
                         .HasColumnType("int");
 
                     b.Property<string>("employee_lname")
@@ -93,11 +93,11 @@ namespace HandOffApiCli.Migrations
 
             modelBuilder.Entity("HandOffApiCli.Data.Entities.Patient", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("patient_city")
                         .HasMaxLength(50)
@@ -120,10 +120,12 @@ namespace HandOffApiCli.Migrations
                     b.Property<int?>("patient_primary_care_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("patient_vist_id")
+                    b.Property<int?>("patient_visitID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
+
+                    b.HasIndex("patient_visitID");
 
                     b.ToTable("Patients");
                 });
@@ -139,10 +141,10 @@ namespace HandOffApiCli.Migrations
                     b.Property<DateTime>("visit_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("visit_handoff_id")
+                    b.Property<int?>("visit_handoff_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("work_group_id")
+                    b.Property<int?>("work_group_id")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -165,6 +167,22 @@ namespace HandOffApiCli.Migrations
 
                     b.ToTable("WorkGroups");
                 });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Patient", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.Visit", "patient_visit")
+                        .WithMany("Patients")
+                        .HasForeignKey("patient_visitID");
+
+                    b.Navigation("patient_visit");
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Visit", b =>
+                {
+                    b.Navigation("Patients");
+                });
+
+
 #pragma warning restore 612, 618
         }
     }

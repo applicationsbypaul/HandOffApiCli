@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HandOffApiCli.Data.Entities
 {
@@ -6,9 +7,11 @@ namespace HandOffApiCli.Data.Entities
     {
         [Key]
         public int id { get; set; }
+        
         public DateTime visit_date { get; set; }
-        [Required]
-        public int visit_handoff_id { get; set; }
-        public int work_group_id { get; set; }
+        public int? visit_handoff_id { get; set; }
+        public int? work_group_id { get; set; }
+
+        public ICollection<Patient> Patients { get; set; }
     }
 }
