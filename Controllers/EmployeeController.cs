@@ -1,4 +1,5 @@
 ﻿using HandOffApiCli.Data.Entities;
+using HandOffApiCli.Services.EmployeeService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -9,64 +10,48 @@ namespace HandOffApiCli.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
-        private static List<Employee> employees = new List<Employee>
-        {
-            new Employee
-            {   Id = 1,
-                EmployeeFirstName = "Paul",
-                EmployeeLastName = "Ford"
-            },
-            new Employee
-            {
-                Id = 2,
-                EmployeeFirstName = "Amy",
-                EmployeeLastName = "Eisenberg"
-            }
-        };
+        private readonly IEmployeeService _employeeService;
 
+        public EmployeeController(IEmployeeService employeeService) 
+        {
+            _employeeService = employeeService;
+        }
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
-            return Ok(employees);
+            var result = _employeeService.GetAllEmployees();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<Employee>> GetSingleEmployee(int id)
         {
-            var employee = employees.Find(e => e.Id == id);
-            return Ok(employee);
+            return Ok(_employeeService.GetSingleEmployee(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<List<Employee>>> AddEmployee(Employee employee)
         {
-            employees.Add(employee);
-            return Ok(employees);
+            return Ok(_employeeService.AddEmployee(employee));
         }
 
         [HttpPut]
         public async Task<ActionResult<List<Employee>>> UpdateEmployee(int id, Employee request)
         {
-            var employee = employees.Find(e => e.Id==id);
-            if (employee == null)
-                return NotFound("Sorry, but this employee doesn't exist");
-
-            employee.EmployeeFirstName = request.EmployeeFirstName;
-            employee.EmployeeLastName = request.EmployeeLastName;
+            var result = _employeeService.UpdateEmployee(id, request);
+            if (result == null)
+                return null;
             
-            return Ok(employees);
-
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Employee>>> DeleteHero(int id)
+        public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
         {
-            var employee = employees.Find(e => e.Id == id);
-            if (employee == null)
-                return NotFound("Sorry, but this employee doesn't exist");
-
-            employees.Remove(employee);
-            return Ok(employees);
+            var result = _employeeService.DeleteEmployee(id);
+            if (result == null)
+                return NotFound("Sorry Employee was not found");
+            return Ok(result);
         }
     }
 }
