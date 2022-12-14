@@ -13,5 +13,6 @@ namespace HandOffApiCli.Data.Entities
         public int? work_group_id { get; set; }
 
         public ICollection<Patient> Patients { get; set; }
+        public ICollection<WorkGroup> WorkGroups { get; set; }
     }
 }

@@ -14,6 +14,6 @@ namespace HandOffApiCli.Data.Entities
         [Required]
         [StringLength(50)]
         public string employee_lname { get; set; }
-        public int employee_job_descriptionId { get; set; }
+        //public int employee_job_descriptionId { get; set; }
     }
 }
