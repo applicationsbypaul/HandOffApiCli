@@ -1,19 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HandOffApiCli.Data.Entities
 {
     public class Employee
     {
         [Key]
-        public int id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         [MaxLength(50)]
         [Required]
         [StringLength(50)]
-        public string employee_fname { get; set; }
+        public string? EmployeeFirstName { get; set; }
         [MaxLength(50)]
         [Required]
         [StringLength(50)]
-        public string employee_lname { get; set; }
+        public string? EmployeeLastName { get; set; }
         //public int employee_job_descriptionId { get; set; }
     }
 }

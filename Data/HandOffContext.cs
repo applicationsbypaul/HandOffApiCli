@@ -19,5 +19,16 @@ namespace HandOffApiCli.Data
         //public DbSet<JobDescription> JobDescriptions { get; set; }
         //public DbSet<Visit> Visits { get; set; }
         //public DbSet<WorkGroup> WorkGroups { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employee>().HasData(
+                new Employee() { Id = 1, EmployeeFirstName = "Paul", EmployeeLastName = "Ford" },
+                new Employee() { Id = 2, EmployeeFirstName = "Amy", EmployeeLastName = "Eisenberg" },
+                new Employee() { Id = 3, EmployeeFirstName = "Tom", EmployeeLastName = "Hardy" },
+                new Employee() { Id = 4, EmployeeFirstName = "John", EmployeeLastName = "Grossman" },
+                new Employee() { Id = 5, EmployeeFirstName = "Olivia", EmployeeLastName = "Mundain" },
+                new Employee() { Id = 6, EmployeeFirstName = "Jessica", EmployeeLastName = "Stone" });
+        }
     }
 }
