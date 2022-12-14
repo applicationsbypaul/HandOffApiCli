@@ -1,11 +1,17 @@
-﻿using HandOffApiCli.Data.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using HandOffApiCli.Data;
+using HandOffApiCli.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace HandOffApiCli.Services.EmployeeService
 {
     public class EmployeeService : IEmployeeService
     {
+        private readonly HandOffContext _context;
+        public EmployeeService(HandOffContext context)
+        {
+            _context = context;
+        }
+
         private static List<Employee> employees = new List<Employee>
         {
             new Employee
@@ -38,9 +44,10 @@ namespace HandOffApiCli.Services.EmployeeService
             return (employees);
         }
 
-        public List<Employee> GetAllEmployees()
+        public async Task<List<Employee>> GetAllEmployees()
         {
-            return (employees);
+            var result = await _context.Employees.ToListAsync();
+            return (result);
         }
 
         public Employee GetSingleEmployee(int id)

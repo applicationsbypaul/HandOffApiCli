@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandOffApiCli.Migrations
 {
     [DbContext(typeof(HandOffContext))]
-    [Migration("20221214033312_Employee")]
+    [Migration("20221214080959_Employee")]
     partial class Employee
     {
         /// <inheritdoc />

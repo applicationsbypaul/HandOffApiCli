@@ -19,7 +19,7 @@ namespace HandOffApiCli.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
-            var result = _employeeService.GetAllEmployees();
+            var result = await _employeeService.GetAllEmployees();
             return Ok(result);
         }
 
