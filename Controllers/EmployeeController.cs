@@ -50,8 +50,6 @@ namespace HandOffApiCli.Controllers
         public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
         {
             var result = _employeeService.DeleteEmployee(id);
-            if (result == null)
-                return NotFound("Sorry Employee was not found");
             return Ok(result);
         }
     }

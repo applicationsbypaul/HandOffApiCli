@@ -35,14 +35,13 @@ namespace HandOffApiCli.Services.EmployeeService
             return (employee);
         }
 
-        public List<Employee> DeleteEmployee(int id)
+        public async Task <List<Employee>> DeleteEmployee(int id)
         {
-            var employee = employees.Find(e => e.Id == id);
-            if (employee == null)
-                return null;
-
-            employees.Remove(employee);
-            return (employees);
+            var test = _context.Employees.ToList();
+            var employeeToDelete = test.Find(x => x.Id == id);
+            _context.Employees.Remove(employeeToDelete);
+            await _context.SaveChangesAsync();
+            return (await _context.Employees.ToListAsync());
         }
 
         public async Task<List<Employee>> GetAllEmployees()

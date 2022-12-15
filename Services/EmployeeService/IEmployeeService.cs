@@ -8,6 +8,6 @@ namespace HandOffApiCli.Services.EmployeeService
         Employee GetSingleEmployee(int id);
         Task<Employee> AddEmployee(Employee employee);
         List<Employee> UpdateEmployee(int id , Employee request);
-        List<Employee> DeleteEmployee(int id);
+        Task<List<Employee>> DeleteEmployee(int id);
     }
 }
