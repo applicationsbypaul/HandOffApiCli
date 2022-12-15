@@ -28,10 +28,12 @@ namespace HandOffApiCli.Services.EmployeeService
             }
         };
 
-        public List<Employee> AddEmployee(Employee employee)
+        public async Task <List<Employee>> AddEmployee(Employee employee)
         {
-            employees.Add(employee);
-            return (employees);
+            await _context.AddAsync(employee);
+            await _context.SaveChangesAsync();
+            var result = await GetAllEmployees();
+            return (result);
         }
 
         public List<Employee> DeleteEmployee(int id)
