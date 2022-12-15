@@ -6,7 +6,7 @@ namespace HandOffApiCli.Services.EmployeeService
     {
         Task<List<Employee>> GetAllEmployees();
         Employee GetSingleEmployee(int id);
-        Task<List<Employee>> AddEmployee(Employee employee);
+        Task<Employee> AddEmployee(Employee employee);
         List<Employee> UpdateEmployee(int id , Employee request);
         List<Employee> DeleteEmployee(int id);
     }

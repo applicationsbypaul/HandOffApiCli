@@ -30,10 +30,10 @@ namespace HandOffApiCli.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Employee>>> AddEmployee(Employee employee)
+        public async Task<ActionResult<Employee>> AddEmployee(Employee employee)
         {
-            await _employeeService.AddEmployee(employee);
-            return Ok();
+            
+            return Ok(await _employeeService.AddEmployee(employee));
         }
 
         [HttpPut]
