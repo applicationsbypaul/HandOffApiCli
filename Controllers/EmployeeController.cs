@@ -1,7 +1,5 @@
 ﻿using HandOffApiCli.Data.Entities;
 using HandOffApiCli.Services.EmployeeService;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HandOffApiCli.Controllers
@@ -26,7 +24,7 @@ namespace HandOffApiCli.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetSingleEmployee(int id)
         {
-            return Ok(_employeeService.GetSingleEmployee(id));
+            return Ok(await _employeeService.GetSingleEmployee(id));
         }
 
         [HttpPost]
@@ -39,7 +37,7 @@ namespace HandOffApiCli.Controllers
         [HttpPut]
         public async Task<ActionResult<List<Employee>>> UpdateEmployee(int id, Employee request)
         {
-            var result = _employeeService.UpdateEmployee(id, request);
+            var result = await _employeeService.UpdateEmployee(id, request);
             if (result == null)
                 return null;
             
@@ -49,7 +47,9 @@ namespace HandOffApiCli.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
         {
-            var result = _employeeService.DeleteEmployee(id);
+            var result = await _employeeService.DeleteEmployee(id);
+            if (result is null)
+                return NotFound("The Employee is not found");
             return Ok(result);
         }
     }

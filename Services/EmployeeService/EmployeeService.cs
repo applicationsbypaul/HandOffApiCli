@@ -4,6 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HandOffApiCli.Services.EmployeeService
 {
+    public interface IEmployeeService
+    {
+        Task<List<Employee>?> GetAllEmployees();
+        Task<Employee?> GetSingleEmployee(int id);
+        Task<Employee> AddEmployee(Employee employee);
+        Task<List<Employee>?> UpdateEmployee(int id, Employee request);
+        Task<List<Employee>?> DeleteEmployee(int id);
+    }
     public class EmployeeService : IEmployeeService
     {
         private readonly HandOffContext _context;
@@ -12,22 +20,6 @@ namespace HandOffApiCli.Services.EmployeeService
             _context = context;
         }
 
-        private static List<Employee> employees = new List<Employee>
-        {
-            new Employee
-            {
-                Id = 1,
-                EmployeeFirstName = "Paul",
-                EmployeeLastName = "Ford"
-            },
-            new Employee
-            {
-                Id = 2,
-                EmployeeFirstName = "Amy",
-                EmployeeLastName = "Eisenberg"
-            }
-        };
-
         public async Task <Employee> AddEmployee(Employee employee)
         {
             await _context.AddAsync(employee);
@@ -35,37 +27,40 @@ namespace HandOffApiCli.Services.EmployeeService
             return (employee);
         }
 
-        public async Task <List<Employee>> DeleteEmployee(int id)
+        public async Task <List<Employee>?> DeleteEmployee(int id)
         {
-            var test = _context.Employees.ToList();
-            var employeeToDelete = test.Find(x => x.Id == id);
-            _context.Employees.Remove(employeeToDelete);
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee is null)
+                return null;
+            _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
-            return (await _context.Employees.ToListAsync());
+            return await GetAllEmployees();
         }
 
-        public async Task<List<Employee>> GetAllEmployees()
+        public async Task <List<Employee>?> GetAllEmployees()
         {
-            var result = await _context.Employees.ToListAsync();
-            return (result);
+            return await _context.Employees.ToListAsync(); ;
         }
 
-        public Employee GetSingleEmployee(int id)
+        public async Task<Employee?> GetSingleEmployee(int id)
         {
-            var employee = employees.Find(e => e.Id == id);
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee is null)
+                return null;
             return (employee);
         }
 
-        public List<Employee> UpdateEmployee(int id, Employee request)
+        public async Task<List<Employee>?> UpdateEmployee(int id, Employee request)
         {
-            var employee = employees.Find(e => e.Id == id);
-            if (employee == null)
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee is null)
                 return null;
 
             employee.EmployeeFirstName = request.EmployeeFirstName;
             employee.EmployeeLastName = request.EmployeeLastName;
+            await _context.SaveChangesAsync();
 
-            return (employees);
+            return await GetAllEmployees();
         }
     }
 }
