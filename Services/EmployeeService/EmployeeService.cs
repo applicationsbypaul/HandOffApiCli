@@ -32,7 +32,9 @@ namespace HandOffApiCli.Services.EmployeeService
             var employee = await _context.Employees.FindAsync(id);
             if (employee is null)
                 return null;
+
             _context.Employees.Remove(employee);
+
             await _context.SaveChangesAsync();
             return await GetAllEmployees();
         }

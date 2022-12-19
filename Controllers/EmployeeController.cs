@@ -1,6 +1,7 @@
 ﻿using HandOffApiCli.Data.Entities;
 using HandOffApiCli.Services.EmployeeService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HandOffApiCli.Controllers
 {
@@ -10,27 +11,25 @@ namespace HandOffApiCli.Controllers
     {
         private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(IEmployeeService employeeService) 
+        public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<Employee>>> GetAllEmployees()
-        {
-            var result = await _employeeService.GetAllEmployees();
-            return Ok(result);
-        }
+        public async Task<ActionResult<List<Employee>>> GetAllEmployees() => Ok(await _employeeService.GetAllEmployees());
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetSingleEmployee(int id)
         {
+            var employee = await _employeeService.GetSingleEmployee(id);
+            if (employee is null)
+                return NotFound("The employee your trying retrieve does not exist");
             return Ok(await _employeeService.GetSingleEmployee(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<Employee>> AddEmployee(Employee employee)
         {
-            
             return Ok(await _employeeService.AddEmployee(employee));
         }
 
@@ -38,9 +37,9 @@ namespace HandOffApiCli.Controllers
         public async Task<ActionResult<List<Employee>>> UpdateEmployee(int id, Employee request)
         {
             var result = await _employeeService.UpdateEmployee(id, request);
-            if (result == null)
-                return null;
-            
+            if (result.IsNullOrEmpty())
+                return NotFound("The employee your trying to update does not exist.");
+
             return Ok(result);
         }
 
@@ -48,7 +47,7 @@ namespace HandOffApiCli.Controllers
         public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
         {
             var result = await _employeeService.DeleteEmployee(id);
-            if (result is null)
+            if (result.IsNullOrEmpty())
                 return NotFound("The Employee is not found");
             return Ok(result);
         }
