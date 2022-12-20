@@ -7,7 +7,7 @@ namespace HandOffApiCli.Data.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int EmployeeId { get; set; }
         [MaxLength(50)]
         [Required]
         [StringLength(50)]
@@ -16,6 +16,7 @@ namespace HandOffApiCli.Data.Entities
         [Required]
         [StringLength(50)]
         public string? EmployeeLastName { get; set; }
-        //public int employee_job_descriptionId { get; set; }
+        public int? JobDetailId { get; set; }
+        public JobDetail? JobDetail { get; set; }
     }
 }
