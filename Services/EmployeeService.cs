@@ -2,7 +2,7 @@
 using HandOffApiCli.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace HandOffApiCli.Services.EmployeeService
+namespace HandOffApiCli.Services
 {
     public interface IEmployeeService
     {
@@ -20,14 +20,14 @@ namespace HandOffApiCli.Services.EmployeeService
             _context = context;
         }
 
-        public async Task <Employee> AddEmployee(Employee employee)
+        public async Task<Employee> AddEmployee(Employee employee)
         {
             await _context.AddAsync(employee);
             await _context.SaveChangesAsync();
-            return (employee);
+            return employee;
         }
 
-        public async Task <List<Employee>?> DeleteEmployee(int id)
+        public async Task<List<Employee>?> DeleteEmployee(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
             if (employee is null)
@@ -39,7 +39,7 @@ namespace HandOffApiCli.Services.EmployeeService
             return await GetAllEmployees();
         }
 
-        public async Task <List<Employee>?> GetAllEmployees()
+        public async Task<List<Employee>?> GetAllEmployees()
         {
             return await _context.Employees.ToListAsync(); ;
         }
@@ -49,7 +49,7 @@ namespace HandOffApiCli.Services.EmployeeService
             var employee = await _context.Employees.FindAsync(id);
             if (employee is null)
                 return null;
-            return (employee);
+            return employee;
         }
 
         public async Task<List<Employee>?> UpdateEmployee(int id, Employee request)

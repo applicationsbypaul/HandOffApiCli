@@ -1,5 +1,5 @@
 ﻿using HandOffApiCli.Data.Entities;
-using HandOffApiCli.Services.EmployeeService;
+using HandOffApiCli.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
