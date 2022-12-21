@@ -9,6 +9,5 @@ namespace HandOffApiCli.Data.Entities
         public int JobDetailId { get; set; }
         [MaxLength(80)]
         public string? JobDescription { get; set; }
-        public Employee? Employee { get; set; }
     }
 }
