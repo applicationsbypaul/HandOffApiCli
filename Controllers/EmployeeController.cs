@@ -51,5 +51,13 @@ namespace HandOffApiCli.Controllers
                 return NotFound("The Employee is not found");
             return Ok(result);
         }
+        [HttpPost("{id}")]
+        public async Task<ActionResult<Employee?>> AddJobDetailToEmployee(int id, JobDetail detail)
+        {
+            var result = await _employeeService.AddJobDetailToEmployee(id, detail);
+            if (result is null)
+                return NotFound("The Employee is not found");
+            return Ok(result);
+        }
     }
 }

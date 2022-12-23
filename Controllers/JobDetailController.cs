@@ -1,9 +1,6 @@
-﻿using Azure.Core.Serialization;
-using HandOffApiCli.Data.Entities;
+﻿using HandOffApiCli.Data.Entities;
 using HandOffApiCli.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HandOffApiCli.Controllers

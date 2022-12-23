@@ -11,6 +11,7 @@ namespace HandOffApiCli.Services
         Task<Employee> AddEmployee(Employee employee);
         Task<List<Employee>?> UpdateEmployee(int id, Employee request);
         Task<List<Employee>?> DeleteEmployee(int id);
+        Task<Employee?> AddJobDetailToEmployee(int id, JobDetail detail);
     }
     public class EmployeeService : IEmployeeService
     {
@@ -63,6 +64,17 @@ namespace HandOffApiCli.Services
             await _context.SaveChangesAsync();
 
             return await GetAllEmployees();
+        }
+
+        public async Task<Employee?> AddJobDetailToEmployee(int id, JobDetail detail)
+        {
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee is null)
+                return null;
+            employee.JobDetailId= detail.JobDetailId;
+            await _context.SaveChangesAsync();
+            return employee;
+
         }
     }
 }
