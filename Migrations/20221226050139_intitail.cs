@@ -7,7 +7,7 @@
 namespace HandOffApiCli.Migrations
 {
     /// <inheritdoc />
-    public partial class differnetnameofFK : Migration
+    public partial class intitail : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
