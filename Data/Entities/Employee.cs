@@ -18,6 +18,6 @@ namespace HandOffApiCli.Data.Entities
         [StringLength(50)]
         public string? EmployeeLastName { get; set; }
         [ForeignKey("JobDetailId")]
-        public int? JobDetailId { get; set; }
+        public int? EmployeeJobDetailId { get; set; }
     }
 }

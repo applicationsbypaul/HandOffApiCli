@@ -35,13 +35,13 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("EmployeeJobDetailId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("JobDetailId")
-                        .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
 
