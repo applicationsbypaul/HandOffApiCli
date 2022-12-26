@@ -7,7 +7,7 @@
 namespace HandOffApiCli.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class fklastcheckchangefk : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,6 +33,7 @@ namespace HandOffApiCli.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeFirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     EmployeeLastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmployeeJobDetailId = table.Column<int>(type: "int", nullable: true),
                     JobDetailId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -47,15 +48,15 @@ namespace HandOffApiCli.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "EmployeeId", "EmployeeFirstName", "EmployeeLastName", "JobDetailId" },
+                columns: new[] { "EmployeeId", "EmployeeFirstName", "EmployeeJobDetailId", "EmployeeLastName", "JobDetailId" },
                 values: new object[,]
                 {
-                    { 1, "Paul", "Ford", null },
-                    { 2, "Amy", "Eisenberg", null },
-                    { 3, "Tom", "Hardy", null },
-                    { 4, "John", "Grossman", null },
-                    { 5, "Olivia", "Mundain", null },
-                    { 6, "Jessica", "Stone", null }
+                    { 1, "Paul", null, "Ford", null },
+                    { 2, "Amy", null, "Eisenberg", null },
+                    { 3, "Tom", null, "Hardy", null },
+                    { 4, "John", null, "Grossman", null },
+                    { 5, "Olivia", null, "Mundain", null },
+                    { 6, "Jessica", null, "Stone", null }
                 });
 
             migrationBuilder.InsertData(
@@ -63,16 +64,14 @@ namespace HandOffApiCli.Migrations
                 columns: new[] { "JobDetailId", "JobDescription" },
                 values: new object[,]
                 {
-                    { 1, "Register Nurse" },
+                    { 1, "Registerd Nurse" },
                     { 2, "Doctor" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_JobDetailId",
                 table: "Employees",
-                column: "JobDetailId",
-                unique: true,
-                filter: "[JobDetailId] IS NOT NULL");
+                column: "JobDetailId");
         }
 
         /// <inheritdoc />

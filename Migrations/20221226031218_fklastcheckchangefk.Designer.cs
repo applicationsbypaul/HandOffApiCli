@@ -4,6 +4,7 @@ using HandOffApiCli.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandOffApiCli.Migrations
 {
     [DbContext(typeof(HandOffContext))]
-    partial class HandOffContextModelSnapshot : ModelSnapshot
+    [Migration("20221226031218_fklastcheckchangefk")]
+    partial class fklastcheckchangefk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,9 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("EmployeeJobDetailId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -44,6 +50,8 @@ namespace HandOffApiCli.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("JobDetailId");
 
                     b.ToTable("Employees");
 
@@ -113,6 +121,15 @@ namespace HandOffApiCli.Migrations
                             JobDetailId = 2,
                             JobDescription = "Doctor"
                         });
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Employee", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.JobDetail", "JobDetail")
+                        .WithMany()
+                        .HasForeignKey("JobDetailId");
+
+                    b.Navigation("JobDetail");
                 });
 #pragma warning restore 612, 618
         }

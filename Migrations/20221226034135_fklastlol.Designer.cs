@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandOffApiCli.Migrations
 {
     [DbContext(typeof(HandOffContext))]
-    [Migration("20221221061507_fkjobdescription")]
-    partial class fkjobdescription
+    [Migration("20221226034135_fklastlol")]
+    partial class fklastlol
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("EmployeeJobDetailId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -48,9 +51,7 @@ namespace HandOffApiCli.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("JobDetailId")
-                        .IsUnique()
-                        .HasFilter("[JobDetailId] IS NOT NULL");
+                    b.HasIndex("JobDetailId");
 
                     b.ToTable("Employees");
 
@@ -125,15 +126,10 @@ namespace HandOffApiCli.Migrations
             modelBuilder.Entity("HandOffApiCli.Data.Entities.Employee", b =>
                 {
                     b.HasOne("HandOffApiCli.Data.Entities.JobDetail", "JobDetail")
-                        .WithOne("Employee")
-                        .HasForeignKey("HandOffApiCli.Data.Entities.Employee", "JobDetailId");
+                        .WithMany()
+                        .HasForeignKey("JobDetailId");
 
                     b.Navigation("JobDetail");
-                });
-
-            modelBuilder.Entity("HandOffApiCli.Data.Entities.JobDetail", b =>
-                {
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }
