@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandOffApiCli.Migrations
 {
     [DbContext(typeof(HandOffContext))]
-    [Migration("20221220062636_initial")]
-    partial class initial
+    [Migration("20221226045316_differnetnameofFK")]
+    partial class differnetnameofFK
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,19 +38,15 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("EmployeeJobDetailId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("JobDetailId")
-                        .HasColumnType("int");
-
                     b.HasKey("EmployeeId");
-
-                    b.HasIndex("JobDetailId")
-                        .IsUnique()
-                        .HasFilter("[JobDetailId] IS NOT NULL");
 
                     b.ToTable("Employees");
 
@@ -113,27 +109,13 @@ namespace HandOffApiCli.Migrations
                         new
                         {
                             JobDetailId = 1,
-                            JobDescription = "Register Nurse"
+                            JobDescription = "Registerd Nurse"
                         },
                         new
                         {
                             JobDetailId = 2,
                             JobDescription = "Doctor"
                         });
-                });
-
-            modelBuilder.Entity("HandOffApiCli.Data.Entities.Employee", b =>
-                {
-                    b.HasOne("HandOffApiCli.Data.Entities.JobDetail", "JobDetail")
-                        .WithOne("Employee")
-                        .HasForeignKey("HandOffApiCli.Data.Entities.Employee", "JobDetailId");
-
-                    b.Navigation("JobDetail");
-                });
-
-            modelBuilder.Entity("HandOffApiCli.Data.Entities.JobDetail", b =>
-                {
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

@@ -35,19 +35,15 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("EmployeeJobDetailId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("JobDetailId")
-                        .HasColumnType("int");
-
                     b.HasKey("EmployeeId");
-
-                    b.HasIndex("JobDetailId")
-                        .IsUnique()
-                        .HasFilter("[JobDetailId] IS NOT NULL");
 
                     b.ToTable("Employees");
 
@@ -117,20 +113,6 @@ namespace HandOffApiCli.Migrations
                             JobDetailId = 2,
                             JobDescription = "Doctor"
                         });
-                });
-
-            modelBuilder.Entity("HandOffApiCli.Data.Entities.Employee", b =>
-                {
-                    b.HasOne("HandOffApiCli.Data.Entities.JobDetail", "JobDetail")
-                        .WithOne("Employee")
-                        .HasForeignKey("HandOffApiCli.Data.Entities.Employee", "JobDetailId");
-
-                    b.Navigation("JobDetail");
-                });
-
-            modelBuilder.Entity("HandOffApiCli.Data.Entities.JobDetail", b =>
-                {
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

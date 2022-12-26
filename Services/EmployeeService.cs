@@ -71,7 +71,7 @@ namespace HandOffApiCli.Services
             var employee = await _context.Employees.FindAsync(id);
             if (employee is null)
                 return null;
-            employee.JobDetailId= detail.JobDetailId;
+            employee.EmployeeJobDetailId = detail.JobDetailId;
             await _context.SaveChangesAsync();
             return employee;
 
