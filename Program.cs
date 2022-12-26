@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HandOffContext>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IJobDetailService, JobDetailService>();
+builder.Services.AddScoped<IWorkGroupService, WorkGroupService>();
 
 var app = builder.Build();
 
