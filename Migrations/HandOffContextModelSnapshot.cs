@@ -43,12 +43,7 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("WorkGroupId")
-                        .HasColumnType("int");
-
                     b.HasKey("EmployeeId");
-
-                    b.HasIndex("WorkGroupId");
 
                     b.ToTable("Employees");
 
@@ -128,21 +123,33 @@ namespace HandOffApiCli.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkGroupId"));
 
+                    b.Property<int?>("EmployeesEmployeeId")
+                        .HasColumnType("int");
+
                     b.HasKey("WorkGroupId");
 
-                    b.ToTable("WorkGroups");
-                });
+                    b.HasIndex("EmployeesEmployeeId");
 
-            modelBuilder.Entity("HandOffApiCli.Data.Entities.Employee", b =>
-                {
-                    b.HasOne("HandOffApiCli.Data.Entities.WorkGroup", null)
-                        .WithMany("WorkGroup_Employee")
-                        .HasForeignKey("WorkGroupId");
+                    b.ToTable("WorkGroups");
+
+                    b.HasData(
+                        new
+                        {
+                            WorkGroupId = 1
+                        },
+                        new
+                        {
+                            WorkGroupId = 2
+                        });
                 });
 
             modelBuilder.Entity("HandOffApiCli.Data.Entities.WorkGroup", b =>
                 {
-                    b.Navigation("WorkGroup_Employee");
+                    b.HasOne("HandOffApiCli.Data.Entities.Employee", "Employees")
+                        .WithMany()
+                        .HasForeignKey("EmployeesEmployeeId");
+
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

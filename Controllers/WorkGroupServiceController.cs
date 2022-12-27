@@ -23,7 +23,7 @@ namespace HandOffApiCli.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<ActionResult<WorkGroup>> AddEmployeeToWorkGroup(int id, Employee employee)
+        public async Task<ActionResult<WorkGroup?>> AddEmployeeToWorkGroup(int id, Employee employee)
         {
             return await _workGroupService.AddEmployeeToWorkGroup(id, employee);
         }         

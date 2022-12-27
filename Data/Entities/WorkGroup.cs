@@ -9,6 +9,6 @@ namespace HandOffApiCli.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int WorkGroupId { get; set; }
-        public ICollection<Employee?> WorkGroup_Employees { get; set; }
+        public Employee? Employees { get; set; }
     }
 }

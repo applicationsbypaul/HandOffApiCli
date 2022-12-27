@@ -7,7 +7,7 @@ namespace HandOffApiCli.Services
     public interface IWorkGroupService
     {
         Task<List<WorkGroup>> GetAllWorkGroups();
-        Task<WorkGroup> AddEmployeeToWorkGroup(int id, Employee employee);
+        Task<WorkGroup?> AddEmployeeToWorkGroup(int id, Employee employee);
 
     }
     public class WorkGroupService : IWorkGroupService
@@ -24,10 +24,15 @@ namespace HandOffApiCli.Services
             return await _context.WorkGroups.ToListAsync();
         }
 
-        public async Task<WorkGroup> AddEmployeeToWorkGroup(int id, Employee employee)
+        public async Task<WorkGroup?> AddEmployeeToWorkGroup(int id, Employee employee)
         {
             var workgroup = await _context.WorkGroups.FindAsync(id);
-            workgroup.WorkGroup_Employees.Add(employee);
+            //var realEmployee = await _context.Employees.FindAsync(employee.EmployeeId);
+            if (workgroup == null)
+            {
+                return null;
+            }
+            workgroup.Employees = employee;
             _context.SaveChanges();
             return workgroup;
         }
