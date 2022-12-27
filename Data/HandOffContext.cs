@@ -33,6 +33,10 @@ namespace HandOffApiCli.Data
             modelBuilder.Entity<JobDetail>().HasData(
                 new JobDetail() { JobDetailId = 1, JobDescription = "Registerd Nurse" },
                 new JobDetail() { JobDetailId = 2, JobDescription = "Doctor" });
+
+            modelBuilder.Entity<WorkGroup>().HasData(
+                new WorkGroup() { WorkGroupId = 1 },
+                new WorkGroup() { WorkGroupId = 2 });  
         }
     }
 }

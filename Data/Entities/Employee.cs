@@ -19,5 +19,6 @@ namespace HandOffApiCli.Data.Entities
         public string? EmployeeLastName { get; set; }
         [ForeignKey("JobDetailId")]
         public int? EmployeeJobDetailId { get; set; }
+        public WorkGroup WorkGroup { get; set; }
     }
 }

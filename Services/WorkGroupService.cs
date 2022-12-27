@@ -23,11 +23,11 @@ namespace HandOffApiCli.Services
         {
             return await _context.WorkGroups.ToListAsync();
         }
-        
+
         public async Task<WorkGroup> AddEmployeeToWorkGroup(int id, Employee employee)
         {
             var workgroup = await _context.WorkGroups.FindAsync(id);
-            workgroup.WorkGroup_Employee.Add(employee);
+            workgroup.WorkGroup_Employees.Add(employee);
             _context.SaveChanges();
             return workgroup;
         }
