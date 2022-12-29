@@ -7,20 +7,18 @@ namespace HandOffApiCli.Data.Entities
     public class Patient
     {
         [Key]
-        public int id { get; set; }
+        public int PatientId { get; set; }
         [MaxLength(50)]
-        public string patient_fname { get; set; }
+        public string? PatientFirstName { get; set; }
         [MaxLength(50)]
-        public string patient_lname { get; set; }
+        public string? PatientLastName { get; set; }
         [MaxLength(50)]
-        public string? patient_city { get; set; }
+        public string? PatientCity { get; set; }
         [MaxLength(25)]
-        public string? patient_phone { get; set; }
-
-        public int? patient_visitID { get; set; }
-        public Visit? patient_visit { get; set; }
-
-        public int? patient_primary_care_id { get; set; }
+        public string? PatientPhone { get; set; }
+        public DateTime PatientBirthDate { get; set;}
+        [ForeignKey("EmployeeId")]
+        public int? PatientPrimaryDoctorId { get; set; }
 
     }
    }

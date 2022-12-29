@@ -15,7 +15,7 @@ namespace HandOffApiCli.Data
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<JobDetail> JobDetails { get; set; }
-       //public DbSet<Patient> Patients { get; set; }
+        public DbSet<Patient> Patients { get; set; }
         //public DbSet<Handoff> Handoffs { get; set; }
         //public DbSet<Visit> Visits { get; set; }
         //public DbSet<WorkGroup> WorkGroups { get; set; }
@@ -33,6 +33,18 @@ namespace HandOffApiCli.Data
             modelBuilder.Entity<JobDetail>().HasData(
                 new JobDetail() { JobDetailId = 1, JobDescription = "Registerd Nurse" },
                 new JobDetail() { JobDetailId = 2, JobDescription = "Doctor" });
+
+            _ = modelBuilder.Entity<Patient>().HasData(
+                new Patient()
+                {
+                    PatientId = 1,
+                    PatientFirstName = "Steve",
+                    PatientLastName = "Rogers",
+                    PatientCity = "Chicago",
+                    PatientPhone = "555-555-5555",
+                    PatientBirthDate = new DateTime(1987,05,21),
+                    PatientPrimaryDoctorId = null
+                });
         }
     }
 }
