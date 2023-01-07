@@ -12,6 +12,7 @@ namespace HandOffApiCli.Services
         Task<List<Patient>?> UpdatePatient(int id, Patient request);
         Task<List<Patient>?> DeletePatient(int id);
         Task<Patient?> AddPrimaryDoctorToPatient(int id, int employeeId);
+        Task<Employee> GetPatientPrimaryDoctor(int patientId);
     }
     public class PatientService : IPatientService
     {
@@ -84,6 +85,19 @@ namespace HandOffApiCli.Services
             await _context.SaveChangesAsync();
             return patient;
 
+        }
+
+        public async Task<Employee> GetPatientPrimaryDoctor(int patientId)
+        {
+            var patient = await _context.Patients.FindAsync(patientId);
+            if (patient is null)
+                return null;
+            var employee = await _context.Employees.FindAsync(patient.PatientPrimaryDoctorId);
+            if ( employee is null)
+            {
+                return null;
+            }
+            return employee;
         }
     }
 }

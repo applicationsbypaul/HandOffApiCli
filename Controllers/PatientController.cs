@@ -26,6 +26,14 @@ namespace HandOffApiCli.Controllers
                 return NotFound("The patient your trying retrieve does not exist");
             return Ok(await _patientService.GetSinglePatient(id));
         }
+        [HttpGet("{patientId}")]
+        public async Task<ActionResult<Employee>> GetPatientPrimaryDoctor(int patientId)
+        {
+            var employee = await _patientService.GetPatientPrimaryDoctor(patientId);
+            if (employee is null)
+                return NotFound("The employee does not have a doctor");
+            return Ok(employee);
+        }
 
         [HttpPost]
         public async Task<ActionResult<Patient>> AddPatient(Patient patient)
