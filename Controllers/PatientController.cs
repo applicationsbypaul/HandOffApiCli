@@ -59,8 +59,8 @@ namespace HandOffApiCli.Controllers
                 return NotFound("The Patient is not found");
             return Ok(result);
         }
-        [HttpPost("{id}")]
-        public async Task<ActionResult<Patient?>> AddJobDetailToPatient(int id, int employeeId)
+        [HttpPost("{id}/AddPrimaryDoctorToPatient")]
+        public async Task<ActionResult<Patient?>> AddPrimaryDoctorToPatient(int id, int employeeId)
         {
             var result = await _patientService.AddPrimaryDoctorToPatient(id, employeeId);
             if (result is null)
