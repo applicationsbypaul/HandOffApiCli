@@ -51,7 +51,7 @@ namespace HandOffApiCli.Services
 
         public async Task<List<Patient>?> GetAllPatients()
         {
-            return await _context.Patients.ToListAsync(); ;
+            return await _context.Patients.ToListAsync();
         }
 
         public async Task<Patient?> GetSinglePatient(int id)

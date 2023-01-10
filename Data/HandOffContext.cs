@@ -16,8 +16,8 @@ namespace HandOffApiCli.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<JobDetail> JobDetails { get; set; }
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Visit> Visits { get; set; }
         //public DbSet<Handoff> Handoffs { get; set; }
-        //public DbSet<Visit> Visits { get; set; }
         //public DbSet<WorkGroup> WorkGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace HandOffApiCli.Data
                 new JobDetail() { JobDetailId = 1, JobDescription = "Registerd Nurse" },
                 new JobDetail() { JobDetailId = 2, JobDescription = "Doctor" });
 
-            _ = modelBuilder.Entity<Patient>().HasData(
+            modelBuilder.Entity<Patient>().HasData(
                 new Patient()
                 {
                     PatientId = 1,
@@ -44,6 +44,14 @@ namespace HandOffApiCli.Data
                     PatientPhone = "555-555-5555",
                     PatientBirthDate = new DateTime(1987,05,21),
                     PatientPrimaryDoctorId = null
+                });
+            modelBuilder.Entity<Visit>().HasData(
+                new Visit()
+                {
+                    VisitId = 1,
+                    VisitDate = DateTime.UtcNow,
+                    VisitCheifComplaint = "HeadAche",
+                    VisitPatientId = 1
                 });
         }
     }
