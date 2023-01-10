@@ -20,5 +20,9 @@ namespace HandOffApiCli.Data.Entities
         [ForeignKey("EmployeeId")]
         public int? PatientPrimaryDoctorId { get; set; }
 
+        [ForeignKey("VisitId")]
+        public int VisitId { get; set; }
+        public virtual Visit Visits { get; set; }
+
     }
-   }
+}

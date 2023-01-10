@@ -87,7 +87,7 @@ namespace HandOffApiCli.Services
 
         }
 
-        public async Task<Employee> GetPatientPrimaryDoctor(int patientId)
+        public async Task<Employee?> GetPatientPrimaryDoctor(int patientId)
         {
             var patient = await _context.Patients.FindAsync(patientId);
             if (patient is null)
