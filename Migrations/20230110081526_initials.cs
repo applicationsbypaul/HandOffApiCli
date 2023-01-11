@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HandOffApiCli.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class initials : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,20 +42,6 @@ namespace HandOffApiCli.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Visits",
-                columns: table => new
-                {
-                    VisitId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    VisitCheifComplaint = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Visits", x => x.VisitId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
@@ -66,18 +52,31 @@ namespace HandOffApiCli.Migrations
                     PatientCity = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     PatientPhone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     PatientBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PatientPrimaryDoctorId = table.Column<int>(type: "int", nullable: true),
-                    VisitId = table.Column<int>(type: "int", nullable: false)
+                    PatientPrimaryDoctorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patients", x => x.PatientId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Visits",
+                columns: table => new
+                {
+                    VisitId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VisitCheifComplaint = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visits", x => x.VisitId);
                     table.ForeignKey(
-                        name: "FK_Patients_Visits_VisitId",
-                        column: x => x.VisitId,
-                        principalTable: "Visits",
-                        principalColumn: "VisitId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Visits_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId");
                 });
 
             migrationBuilder.InsertData(
@@ -104,18 +103,18 @@ namespace HandOffApiCli.Migrations
 
             migrationBuilder.InsertData(
                 table: "Patients",
-                columns: new[] { "PatientId", "PatientBirthDate", "PatientCity", "PatientFirstName", "PatientLastName", "PatientPhone", "PatientPrimaryDoctorId", "VisitId" },
-                values: new object[] { 1, new DateTime(1987, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chicago", "Steve", "Rogers", "555-555-5555", null, 0 });
+                columns: new[] { "PatientId", "PatientBirthDate", "PatientCity", "PatientFirstName", "PatientLastName", "PatientPhone", "PatientPrimaryDoctorId" },
+                values: new object[] { 1, new DateTime(1987, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chicago", "Steve", "Rogers", "555-555-5555", null });
 
             migrationBuilder.InsertData(
                 table: "Visits",
-                columns: new[] { "VisitId", "VisitCheifComplaint", "VisitDate" },
-                values: new object[] { 1, "HeadAche", new DateTime(2023, 1, 10, 5, 58, 54, 808, DateTimeKind.Utc).AddTicks(7481) });
+                columns: new[] { "VisitId", "PatientId", "VisitCheifComplaint", "VisitDate" },
+                values: new object[] { 1, null, "HeadAche", new DateTime(2023, 1, 10, 8, 15, 26, 762, DateTimeKind.Utc).AddTicks(3569) });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Patients_VisitId",
-                table: "Patients",
-                column: "VisitId");
+                name: "IX_Visits_PatientId",
+                table: "Visits",
+                column: "PatientId");
         }
 
         /// <inheritdoc />
@@ -128,10 +127,10 @@ namespace HandOffApiCli.Migrations
                 name: "JobDetails");
 
             migrationBuilder.DropTable(
-                name: "Patients");
+                name: "Visits");
 
             migrationBuilder.DropTable(
-                name: "Visits");
+                name: "Patients");
         }
     }
 }

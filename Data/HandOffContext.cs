@@ -51,7 +51,6 @@ namespace HandOffApiCli.Data
                     VisitId = 1,
                     VisitDate = DateTime.UtcNow,
                     VisitCheifComplaint = "HeadAche"
-                    //VisitPatientId = 1
                 });
         }
     }

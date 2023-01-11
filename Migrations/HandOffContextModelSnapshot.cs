@@ -145,12 +145,7 @@ namespace HandOffApiCli.Migrations
                     b.Property<int?>("PatientPrimaryDoctorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VisitId")
-                        .HasColumnType("int");
-
                     b.HasKey("PatientId");
-
-                    b.HasIndex("VisitId");
 
                     b.ToTable("Patients");
 
@@ -162,8 +157,7 @@ namespace HandOffApiCli.Migrations
                             PatientCity = "Chicago",
                             PatientFirstName = "Steve",
                             PatientLastName = "Rogers",
-                            PatientPhone = "555-555-5555",
-                            VisitId = 0
+                            PatientPhone = "555-555-5555"
                         });
                 });
 
@@ -175,6 +169,9 @@ namespace HandOffApiCli.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VisitId"));
 
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("VisitCheifComplaint")
                         .HasColumnType("nvarchar(max)");
 
@@ -183,6 +180,8 @@ namespace HandOffApiCli.Migrations
 
                     b.HasKey("VisitId");
 
+                    b.HasIndex("PatientId");
+
                     b.ToTable("Visits");
 
                     b.HasData(
@@ -190,19 +189,17 @@ namespace HandOffApiCli.Migrations
                         {
                             VisitId = 1,
                             VisitCheifComplaint = "HeadAche",
-                            VisitDate = new DateTime(2023, 1, 10, 5, 58, 54, 808, DateTimeKind.Utc).AddTicks(7481)
+                            VisitDate = new DateTime(2023, 1, 10, 8, 15, 26, 762, DateTimeKind.Utc).AddTicks(3569)
                         });
                 });
 
-            modelBuilder.Entity("HandOffApiCli.Data.Entities.Patient", b =>
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Visit", b =>
                 {
-                    b.HasOne("HandOffApiCli.Data.Entities.Visit", "Visits")
+                    b.HasOne("HandOffApiCli.Data.Entities.Patient", "Patients")
                         .WithMany()
-                        .HasForeignKey("VisitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
 
-                    b.Navigation("Visits");
+                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }
