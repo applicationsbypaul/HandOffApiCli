@@ -43,7 +43,6 @@ namespace HandOffApiCli.Data
                     PatientCity = "Chicago",
                     PatientPhone = "555-555-5555",
                     PatientBirthDate = new DateTime(1987,05,21),
-                    PatientPrimaryDoctorId = null
                 });
             modelBuilder.Entity<Visit>().HasData(
                 new Visit()

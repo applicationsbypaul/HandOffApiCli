@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandOffApiCli.Migrations
 {
     [DbContext(typeof(HandOffContext))]
-    [Migration("20230110081526_initials")]
-    partial class initials
+    [Migration("20230111075920_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,15 +38,17 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("EmployeeJobDetailId")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("Employee_JobDetailId")
+                        .HasColumnType("int");
+
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("Employee_JobDetailId");
 
                     b.ToTable("Employees");
 
@@ -145,10 +147,12 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int?>("PatientPrimaryDoctorId")
+                    b.Property<int?>("Patient_EmployeeId")
                         .HasColumnType("int");
 
                     b.HasKey("PatientId");
+
+                    b.HasIndex("Patient_EmployeeId");
 
                     b.ToTable("Patients");
 
@@ -172,18 +176,18 @@ namespace HandOffApiCli.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VisitId"));
 
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
-
                     b.Property<string>("VisitCheifComplaint")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("VisitDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Visit_PatientId")
+                        .HasColumnType("int");
+
                     b.HasKey("VisitId");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("Visit_PatientId");
 
                     b.ToTable("Visits");
 
@@ -192,15 +196,33 @@ namespace HandOffApiCli.Migrations
                         {
                             VisitId = 1,
                             VisitCheifComplaint = "HeadAche",
-                            VisitDate = new DateTime(2023, 1, 10, 8, 15, 26, 762, DateTimeKind.Utc).AddTicks(3569)
+                            VisitDate = new DateTime(2023, 1, 11, 7, 59, 20, 696, DateTimeKind.Utc).AddTicks(7740)
                         });
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Employee", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.JobDetail", "JobDetails")
+                        .WithMany()
+                        .HasForeignKey("Employee_JobDetailId");
+
+                    b.Navigation("JobDetails");
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Patient", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.Employee", "Employees")
+                        .WithMany()
+                        .HasForeignKey("Patient_EmployeeId");
+
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("HandOffApiCli.Data.Entities.Visit", b =>
                 {
                     b.HasOne("HandOffApiCli.Data.Entities.Patient", "Patients")
                         .WithMany()
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("Visit_PatientId");
 
                     b.Navigation("Patients");
                 });

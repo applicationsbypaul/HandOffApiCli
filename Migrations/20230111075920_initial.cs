@@ -8,26 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HandOffApiCli.Migrations
 {
     /// <inheritdoc />
-    public partial class initials : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeFirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EmployeeLastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EmployeeJobDetailId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "JobDetails",
                 columns: table => new
@@ -42,6 +27,26 @@ namespace HandOffApiCli.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeFirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmployeeLastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmployeeJobDetailId = table.Column<int>(name: "Employee_JobDetailId", type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
+                    table.ForeignKey(
+                        name: "FK_Employees_JobDetails_Employee_JobDetailId",
+                        column: x => x.EmployeeJobDetailId,
+                        principalTable: "JobDetails",
+                        principalColumn: "JobDetailId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
@@ -52,11 +57,16 @@ namespace HandOffApiCli.Migrations
                     PatientCity = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     PatientPhone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     PatientBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PatientPrimaryDoctorId = table.Column<int>(type: "int", nullable: true)
+                    PatientEmployeeId = table.Column<int>(name: "Patient_EmployeeId", type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patients", x => x.PatientId);
+                    table.ForeignKey(
+                        name: "FK_Patients_Employees_Patient_EmployeeId",
+                        column: x => x.PatientEmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -67,29 +77,29 @@ namespace HandOffApiCli.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     VisitCheifComplaint = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PatientId = table.Column<int>(type: "int", nullable: true)
+                    VisitPatientId = table.Column<int>(name: "Visit_PatientId", type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Visits", x => x.VisitId);
                     table.ForeignKey(
-                        name: "FK_Visits_Patients_PatientId",
-                        column: x => x.PatientId,
+                        name: "FK_Visits_Patients_Visit_PatientId",
+                        column: x => x.VisitPatientId,
                         principalTable: "Patients",
                         principalColumn: "PatientId");
                 });
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "EmployeeId", "EmployeeFirstName", "EmployeeJobDetailId", "EmployeeLastName" },
+                columns: new[] { "EmployeeId", "EmployeeFirstName", "EmployeeLastName", "Employee_JobDetailId" },
                 values: new object[,]
                 {
-                    { 1, "Paul", null, "Ford" },
-                    { 2, "Amy", null, "Eisenberg" },
-                    { 3, "Tom", null, "Hardy" },
-                    { 4, "John", null, "Grossman" },
-                    { 5, "Olivia", null, "Mundain" },
-                    { 6, "Jessica", null, "Stone" }
+                    { 1, "Paul", "Ford", null },
+                    { 2, "Amy", "Eisenberg", null },
+                    { 3, "Tom", "Hardy", null },
+                    { 4, "John", "Grossman", null },
+                    { 5, "Olivia", "Mundain", null },
+                    { 6, "Jessica", "Stone", null }
                 });
 
             migrationBuilder.InsertData(
@@ -103,34 +113,44 @@ namespace HandOffApiCli.Migrations
 
             migrationBuilder.InsertData(
                 table: "Patients",
-                columns: new[] { "PatientId", "PatientBirthDate", "PatientCity", "PatientFirstName", "PatientLastName", "PatientPhone", "PatientPrimaryDoctorId" },
+                columns: new[] { "PatientId", "PatientBirthDate", "PatientCity", "PatientFirstName", "PatientLastName", "PatientPhone", "Patient_EmployeeId" },
                 values: new object[] { 1, new DateTime(1987, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chicago", "Steve", "Rogers", "555-555-5555", null });
 
             migrationBuilder.InsertData(
                 table: "Visits",
-                columns: new[] { "VisitId", "PatientId", "VisitCheifComplaint", "VisitDate" },
-                values: new object[] { 1, null, "HeadAche", new DateTime(2023, 1, 10, 8, 15, 26, 762, DateTimeKind.Utc).AddTicks(3569) });
+                columns: new[] { "VisitId", "VisitCheifComplaint", "VisitDate", "Visit_PatientId" },
+                values: new object[] { 1, "HeadAche", new DateTime(2023, 1, 11, 7, 59, 20, 696, DateTimeKind.Utc).AddTicks(7740), null });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visits_PatientId",
+                name: "IX_Employees_Employee_JobDetailId",
+                table: "Employees",
+                column: "Employee_JobDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_Patient_EmployeeId",
+                table: "Patients",
+                column: "Patient_EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Visits_Visit_PatientId",
                 table: "Visits",
-                column: "PatientId");
+                column: "Visit_PatientId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "JobDetails");
-
-            migrationBuilder.DropTable(
                 name: "Visits");
 
             migrationBuilder.DropTable(
                 name: "Patients");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "JobDetails");
         }
     }
 }

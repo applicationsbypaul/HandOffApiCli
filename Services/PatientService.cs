@@ -81,7 +81,7 @@ namespace HandOffApiCli.Services
             if (patient is null)
                 return null;
             var employee = await _context.Employees.FindAsync(employeeId);
-            patient.PatientPrimaryDoctorId = employeeId;
+            patient.Employees.EmployeeId = employeeId;
             await _context.SaveChangesAsync();
             return patient;
 
@@ -92,7 +92,7 @@ namespace HandOffApiCli.Services
             var patient = await _context.Patients.FindAsync(patientId);
             if (patient is null)
                 return null;
-            var employee = await _context.Employees.FindAsync(patient.PatientPrimaryDoctorId);
+            var employee = await _context.Employees.FindAsync(patient.Employees.EmployeeId);
             if ( employee is null)
             {
                 return null;
