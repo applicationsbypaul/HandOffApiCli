@@ -23,7 +23,7 @@ namespace HandOffApiCli.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>().HasData(
-                new Employee() { EmployeeId = 1, EmployeeFirstName = "Paul", EmployeeLastName = "Ford" },
+                new Employee() { EmployeeId = 1, EmployeeFirstName = "Paul", EmployeeLastName = "Ford", Employee_JobDetailId = 2 },
                 new Employee() { EmployeeId = 2, EmployeeFirstName = "Amy", EmployeeLastName = "Eisenberg" },
                 new Employee() { EmployeeId = 3, EmployeeFirstName = "Tom", EmployeeLastName = "Hardy" },
                 new Employee() { EmployeeId = 4, EmployeeFirstName = "John", EmployeeLastName = "Grossman" },
@@ -43,7 +43,7 @@ namespace HandOffApiCli.Data
                     PatientCity = "Chicago",
                     PatientPhone = "555-555-5555",
                     PatientBirthDate = new DateTime(1987,05,21),
-                    PatientPrimaryDoctorId = null
+                    Patient_EmployeeId = 1
                 });
             modelBuilder.Entity<Visit>().HasData(
                 new Visit()
@@ -51,7 +51,7 @@ namespace HandOffApiCli.Data
                     VisitId = 1,
                     VisitDate = DateTime.UtcNow,
                     VisitCheifComplaint = "HeadAche",
-                    VisitPatientId = 1
+                    Visit_PatientId = 1
                 });
         }
     }

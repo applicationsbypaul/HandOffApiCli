@@ -16,6 +16,7 @@ builder.Services.AddDbContext<HandOffContext>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IJobDetailService, JobDetailService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IVisitService, VisitService>();
 
 var app = builder.Build();
 

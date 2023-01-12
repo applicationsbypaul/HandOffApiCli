@@ -17,8 +17,10 @@ namespace HandOffApiCli.Data.Entities
         [MaxLength(25)]
         public string? PatientPhone { get; set; }
         public DateTime PatientBirthDate { get; set;}
-        [ForeignKey("EmployeeId")]
-        public int? PatientPrimaryDoctorId { get; set; }
 
+        public virtual int? Patient_EmployeeId { get; set; }
+
+        [ForeignKey("Patient_EmployeeId")]
+        public virtual Employee? Employees { get; set; }
     }
-   }
+}

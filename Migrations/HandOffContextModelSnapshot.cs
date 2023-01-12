@@ -35,15 +35,17 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("EmployeeJobDetailId")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmployeeLastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("Employee_JobDetailId")
+                        .HasColumnType("int");
+
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("Employee_JobDetailId");
 
                     b.ToTable("Employees");
 
@@ -52,7 +54,8 @@ namespace HandOffApiCli.Migrations
                         {
                             EmployeeId = 1,
                             EmployeeFirstName = "Paul",
-                            EmployeeLastName = "Ford"
+                            EmployeeLastName = "Ford",
+                            EmployeeJobDetailId = 2
                         },
                         new
                         {
@@ -142,10 +145,12 @@ namespace HandOffApiCli.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int?>("PatientPrimaryDoctorId")
+                    b.Property<int?>("Patient_EmployeeId")
                         .HasColumnType("int");
 
                     b.HasKey("PatientId");
+
+                    b.HasIndex("Patient_EmployeeId");
 
                     b.ToTable("Patients");
 
@@ -157,7 +162,8 @@ namespace HandOffApiCli.Migrations
                             PatientCity = "Chicago",
                             PatientFirstName = "Steve",
                             PatientLastName = "Rogers",
-                            PatientPhone = "555-555-5555"
+                            PatientPhone = "555-555-5555",
+                            PatientEmployeeId = 1
                         });
                 });
 
@@ -175,10 +181,12 @@ namespace HandOffApiCli.Migrations
                     b.Property<DateTime>("VisitDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VisitPatientId")
+                    b.Property<int?>("Visit_PatientId")
                         .HasColumnType("int");
 
                     b.HasKey("VisitId");
+
+                    b.HasIndex("Visit_PatientId");
 
                     b.ToTable("Visits");
 
@@ -187,9 +195,36 @@ namespace HandOffApiCli.Migrations
                         {
                             VisitId = 1,
                             VisitCheifComplaint = "HeadAche",
-                            VisitDate = new DateTime(2023, 1, 10, 4, 52, 37, 806, DateTimeKind.Utc).AddTicks(6329),
+                            VisitDate = new DateTime(2023, 1, 12, 2, 39, 59, 148, DateTimeKind.Utc).AddTicks(5029),
                             VisitPatientId = 1
                         });
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Employee", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.JobDetail", "JobDetails")
+                        .WithMany()
+                        .HasForeignKey("Employee_JobDetailId");
+
+                    b.Navigation("JobDetails");
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Patient", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.Employee", "Employees")
+                        .WithMany()
+                        .HasForeignKey("Patient_EmployeeId");
+
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Visit", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.Patient", "Patients")
+                        .WithMany()
+                        .HasForeignKey("Visit_PatientId");
+
+                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }

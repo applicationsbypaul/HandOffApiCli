@@ -2,7 +2,6 @@
 using HandOffApiCli.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.Runtime.InteropServices;
 
 namespace HandOffApiCli.Controllers
 {
