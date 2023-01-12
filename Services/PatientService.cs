@@ -12,7 +12,7 @@ namespace HandOffApiCli.Services
         Task<List<Patient>?> UpdatePatient(int id, Patient request);
         Task<List<Patient>?> DeletePatient(int id);
         Task<Patient?> AddPrimaryDoctorToPatient(int id, int employeeId);
-        Task<Employee> GetPatientPrimaryDoctor(int patientId);
+        Task<Employee?> GetPatientPrimaryDoctor(int patientId);
     }
     public class PatientService : IPatientService
     {
@@ -77,14 +77,9 @@ namespace HandOffApiCli.Services
 
         public async Task<Patient?> AddPrimaryDoctorToPatient(int id, int employeeId)
         {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient is null)
-                return null;
-            var employee = await _context.Employees.FindAsync(employeeId);
-            patient.Employees.EmployeeId = employeeId;
-            await _context.SaveChangesAsync();
-            return patient;
-
+            await _context.Patients.Where(x => x.PatientId == id).
+                ExecuteUpdateAsync(x => x.SetProperty(x => x.Patient_EmployeeId, employeeId));
+            return await GetSinglePatient(id);
         }
 
         public async Task<Employee?> GetPatientPrimaryDoctor(int patientId)
@@ -92,7 +87,7 @@ namespace HandOffApiCli.Services
             var patient = await _context.Patients.FindAsync(patientId);
             if (patient is null)
                 return null;
-            var employee = await _context.Employees.FindAsync(patient.Employees.EmployeeId);
+            var employee = await _context.Employees.FindAsync(patient.Patient_EmployeeId);
             if ( employee is null)
             {
                 return null;

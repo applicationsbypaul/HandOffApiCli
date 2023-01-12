@@ -68,8 +68,9 @@ namespace HandOffApiCli.Services
 
         public async Task<Employee?> AddJobDetailToEmployee(int id, int detailId)
         {
-            await _context.Employees.Where(x => x.EmployeeId == id).ExecuteUpdateAsync(x => x.SetProperty(x => x.Employee_JobDetailId, detailId));
-            
+            await _context.Employees.Where(x => x.EmployeeId == id)
+                .ExecuteUpdateAsync(x => x.SetProperty(x => x.Employee_JobDetailId, detailId));
+
             return await GetSingleEmployee(id);
 
         }

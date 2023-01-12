@@ -94,7 +94,6 @@ namespace HandOffApiCli.Migrations
                 columns: new[] { "EmployeeId", "EmployeeFirstName", "EmployeeLastName", "Employee_JobDetailId" },
                 values: new object[,]
                 {
-                    { 1, "Paul", "Ford", null },
                     { 2, "Amy", "Eisenberg", null },
                     { 3, "Tom", "Hardy", null },
                     { 4, "John", "Grossman", null },
@@ -112,14 +111,19 @@ namespace HandOffApiCli.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "EmployeeId", "EmployeeFirstName", "EmployeeLastName", "Employee_JobDetailId" },
+                values: new object[] { 1, "Paul", "Ford", 2 });
+
+            migrationBuilder.InsertData(
                 table: "Patients",
                 columns: new[] { "PatientId", "PatientBirthDate", "PatientCity", "PatientFirstName", "PatientLastName", "PatientPhone", "Patient_EmployeeId" },
-                values: new object[] { 1, new DateTime(1987, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chicago", "Steve", "Rogers", "555-555-5555", null });
+                values: new object[] { 1, new DateTime(1987, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chicago", "Steve", "Rogers", "555-555-5555", 1 });
 
             migrationBuilder.InsertData(
                 table: "Visits",
                 columns: new[] { "VisitId", "VisitCheifComplaint", "VisitDate", "Visit_PatientId" },
-                values: new object[] { 1, "HeadAche", new DateTime(2023, 1, 11, 7, 59, 20, 696, DateTimeKind.Utc).AddTicks(7740), null });
+                values: new object[] { 1, "HeadAche", new DateTime(2023, 1, 12, 2, 39, 59, 148, DateTimeKind.Utc).AddTicks(5029), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_Employee_JobDetailId",

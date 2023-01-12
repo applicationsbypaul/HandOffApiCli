@@ -43,7 +43,7 @@ namespace HandOffApiCli.Services
 
         public async Task<Visit> AddVisit(int patientId, Visit visit)
         {
-            //visit.VisitId= = patientId;
+            visit.Visit_PatientId = patientId;
             await _context.AddAsync(visit);
             await _context.SaveChangesAsync();
             return visit;

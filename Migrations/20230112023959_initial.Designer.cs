@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandOffApiCli.Migrations
 {
     [DbContext(typeof(HandOffContext))]
-    [Migration("20230111075920_initial")]
+    [Migration("20230112023959_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -57,7 +57,8 @@ namespace HandOffApiCli.Migrations
                         {
                             EmployeeId = 1,
                             EmployeeFirstName = "Paul",
-                            EmployeeLastName = "Ford"
+                            EmployeeLastName = "Ford",
+                            EmployeeJobDetailId = 2
                         },
                         new
                         {
@@ -164,7 +165,8 @@ namespace HandOffApiCli.Migrations
                             PatientCity = "Chicago",
                             PatientFirstName = "Steve",
                             PatientLastName = "Rogers",
-                            PatientPhone = "555-555-5555"
+                            PatientPhone = "555-555-5555",
+                            PatientEmployeeId = 1
                         });
                 });
 
@@ -196,7 +198,8 @@ namespace HandOffApiCli.Migrations
                         {
                             VisitId = 1,
                             VisitCheifComplaint = "HeadAche",
-                            VisitDate = new DateTime(2023, 1, 11, 7, 59, 20, 696, DateTimeKind.Utc).AddTicks(7740)
+                            VisitDate = new DateTime(2023, 1, 12, 2, 39, 59, 148, DateTimeKind.Utc).AddTicks(5029),
+                            VisitPatientId = 1
                         });
                 });
 
