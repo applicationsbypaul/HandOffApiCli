@@ -47,6 +47,32 @@ namespace HandOffApiCli.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Handoffs",
+                columns: table => new
+                {
+                    Handoffid = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HandoffExecution = table.Column<bool>(type: "bit", nullable: false),
+                    HandoffDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HandoffEmployeeCurrentId = table.Column<int>(name: "Handoff_Employee_CurrentId", type: "int", nullable: true),
+                    HandoffEmployeeNextId = table.Column<int>(name: "Handoff_Employee_NextId", type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Handoffs", x => x.Handoffid);
+                    table.ForeignKey(
+                        name: "FK_Handoffs_Employees_Handoff_Employee_CurrentId",
+                        column: x => x.HandoffEmployeeCurrentId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId");
+                    table.ForeignKey(
+                        name: "FK_Handoffs_Employees_Handoff_Employee_NextId",
+                        column: x => x.HandoffEmployeeNextId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
@@ -123,12 +149,22 @@ namespace HandOffApiCli.Migrations
             migrationBuilder.InsertData(
                 table: "Visits",
                 columns: new[] { "VisitId", "VisitCheifComplaint", "VisitDate", "Visit_PatientId" },
-                values: new object[] { 1, "HeadAche", new DateTime(2023, 1, 12, 2, 39, 59, 148, DateTimeKind.Utc).AddTicks(5029), 1 });
+                values: new object[] { 1, "HeadAche", new DateTime(2023, 1, 12, 3, 55, 33, 778, DateTimeKind.Utc).AddTicks(5180), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_Employee_JobDetailId",
                 table: "Employees",
                 column: "Employee_JobDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Handoffs_Handoff_Employee_CurrentId",
+                table: "Handoffs",
+                column: "Handoff_Employee_CurrentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Handoffs_Handoff_Employee_NextId",
+                table: "Handoffs",
+                column: "Handoff_Employee_NextId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patients_Patient_EmployeeId",
@@ -144,6 +180,9 @@ namespace HandOffApiCli.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Handoffs");
+
             migrationBuilder.DropTable(
                 name: "Visits");
 
