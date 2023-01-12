@@ -42,7 +42,7 @@ namespace HandOffApiCli.Services
 
         public async Task<List<Employee>?> GetAllEmployees()
         {
-            return await _context.Employees.ToListAsync(); ;
+            return await _context.Employees.ToListAsync();
         }
 
         public async Task<Employee?> GetSingleEmployee(int id)

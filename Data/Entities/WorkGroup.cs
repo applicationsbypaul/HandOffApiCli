@@ -8,6 +8,6 @@ namespace HandOffApiCli.Data.Entities
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public int wg_employeeID { get; set; }
-        public Employee wg_employee { get; set; }
+        //public Employee wg_employee { get; set; }
     }
 }

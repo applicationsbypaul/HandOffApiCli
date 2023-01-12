@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace HandOffApiCli.Data.Entities
 {
@@ -21,6 +22,7 @@ namespace HandOffApiCli.Data.Entities
         public virtual int? Employee_JobDetailId { get; set; }
 
         [ForeignKey("Employee_JobDetailId")]
+        [JsonIgnore]
         public virtual JobDetail? JobDetails { get; set; }
     }
 }

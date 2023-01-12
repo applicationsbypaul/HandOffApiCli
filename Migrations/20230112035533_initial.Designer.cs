@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HandOffApiCli.Migrations
 {
     [DbContext(typeof(HandOffContext))]
-    [Migration("20230112023959_initial")]
+    [Migration("20230112035533_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -90,6 +90,35 @@ namespace HandOffApiCli.Migrations
                             EmployeeFirstName = "Jessica",
                             EmployeeLastName = "Stone"
                         });
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Handoff", b =>
+                {
+                    b.Property<int>("Handoffid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Handoffid"));
+
+                    b.Property<DateTime>("HandoffDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("HandoffExecution")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Handoff_Employee_CurrentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Handoff_Employee_NextId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Handoffid");
+
+                    b.HasIndex("Handoff_Employee_CurrentId");
+
+                    b.HasIndex("Handoff_Employee_NextId");
+
+                    b.ToTable("Handoffs");
                 });
 
             modelBuilder.Entity("HandOffApiCli.Data.Entities.JobDetail", b =>
@@ -198,7 +227,7 @@ namespace HandOffApiCli.Migrations
                         {
                             VisitId = 1,
                             VisitCheifComplaint = "HeadAche",
-                            VisitDate = new DateTime(2023, 1, 12, 2, 39, 59, 148, DateTimeKind.Utc).AddTicks(5029),
+                            VisitDate = new DateTime(2023, 1, 12, 3, 55, 33, 778, DateTimeKind.Utc).AddTicks(5180),
                             VisitPatientId = 1
                         });
                 });
@@ -210,6 +239,21 @@ namespace HandOffApiCli.Migrations
                         .HasForeignKey("Employee_JobDetailId");
 
                     b.Navigation("JobDetails");
+                });
+
+            modelBuilder.Entity("HandOffApiCli.Data.Entities.Handoff", b =>
+                {
+                    b.HasOne("HandOffApiCli.Data.Entities.Employee", "Handoff_Employee_Current")
+                        .WithMany()
+                        .HasForeignKey("Handoff_Employee_CurrentId");
+
+                    b.HasOne("HandOffApiCli.Data.Entities.Employee", "Handoff_Employee_Next")
+                        .WithMany()
+                        .HasForeignKey("Handoff_Employee_NextId");
+
+                    b.Navigation("Handoff_Employee_Current");
+
+                    b.Navigation("Handoff_Employee_Next");
                 });
 
             modelBuilder.Entity("HandOffApiCli.Data.Entities.Patient", b =>

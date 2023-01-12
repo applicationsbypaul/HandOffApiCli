@@ -10,14 +10,14 @@ namespace HandOffApiCli.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=localhost;Database=TestDB;Trusted_Connection=True; TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=localhost;Database=FKTESTDB;Trusted_Connection=True; TrustServerCertificate=True;");
         }
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<JobDetail> JobDetails { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Visit> Visits { get; set; }
-        //public DbSet<Handoff> Handoffs { get; set; }
+        public DbSet<Handoff> Handoffs { get; set; }
         //public DbSet<WorkGroup> WorkGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
